@@ -49,6 +49,7 @@ jobs:
           restore-keys: ${{ runner.os }}-choco-packages
 
       - name: Install dependencies via Chocolatey
+        shell: cmd
         run: |
          choco install -y visualstudio2022buildtools visualstudio2022-workload-vctools visualstudio2022-workload-nativedesktop visualstudio2022-component-vc-tools-spectre cmake || exit 0
 
