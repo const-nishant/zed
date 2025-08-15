@@ -50,7 +50,7 @@ jobs:
 
       - name: Install dependencies via Chocolatey
         run: |
-          choco install -y visualstudio2022buildtools visualstudio2022-workload-vctools cmake
+         choco install -y visualstudio2022buildtools visualstudio2022-workload-vctools visualstudio2022-workload-nativedesktop visualstudio2022-component-vc-tools-spectre cmake
 
       # - name: Download Vulkan SDK Installer
       #   run: |
