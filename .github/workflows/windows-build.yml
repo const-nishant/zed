@@ -52,15 +52,15 @@ jobs:
         run: |
           choco install -y visualstudio2022buildtools visualstudio2022-workload-vctools cmake
 
-      - name: Download Vulkan SDK Installer
-        run: |
-          $VulkanVersion = "1.3.275.0"
-          $VulkanUrl = "https://sdk.lunarg.com/sdk/download/$VulkanVersion/windows/VulkanSDK-$VulkanVersion-Installer.exe"
-          Invoke-WebRequest -Uri $VulkanUrl -OutFile VulkanSDK-Installer.exe
-          if (Test-Path '.\VulkanSDK-Installer.exe') { Write-Host "Downloaded installer found." } else { Write-Error "Installer not found!" }
+      # - name: Download Vulkan SDK Installer
+      #   run: |
+      #     $VulkanVersion = "1.3.275.0"
+      #     $VulkanUrl = "https://sdk.lunarg.com/sdk/download/$VulkanVersion/windows/VulkanSDK-$VulkanVersion-Installer.exe"
+      #     Invoke-WebRequest -Uri $VulkanUrl -OutFile VulkanSDK-Installer.exe
+      #     if (Test-Path '.\VulkanSDK-Installer.exe') { Write-Host "Downloaded installer found." } else { Write-Error "Installer not found!" }
 
-      - name: Install Vulkan SDK Silently
-        run: ./VulkanSDK-Installer.exe /S
+      # - name: Install Vulkan SDK Silently
+      #   run: ./VulkanSDK-Installer.exe /S
 
       - name: Setup MSVC Environment
         uses: ilammy/msvc-dev-cmd@v1
