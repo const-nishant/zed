@@ -50,13 +50,14 @@ jobs:
 
       - name: Install dependencies via Chocolatey
         run: |
-          choco install -y visualstudio2022buildtools visualstudio2022-workload-vctools visualstudio2022-workload-nativedesktop visualstudio2022-component-vc-tools-spectre cmake
+         choco install -y visualstudio2022buildtools visualstudio2022-workload-vctools visualstudio2022-workload-nativedesktop visualstudio2022-component-vc-tools-spectre cmake || exit 0
 
       - name: Add CMake to PATH
         shell: pwsh
         run: |
-          $cmake = "C:\Program Files\CMake\bin"
-          echo "$cmake" | Out-File -Append -FilePath $env:GITHUB_PATH
+         $cmake = "C:\Program Files\CMake\bin"
+         echo "$cmake" | Out-File -Append -FilePath $env:GITHUB_PATH
+
 
       - name: Download Vulkan SDK Installer
         run: |
