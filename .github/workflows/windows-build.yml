@@ -60,34 +60,34 @@ jobs:
          echo "$cmake" | Out-File -Append -FilePath $env:GITHUB_PATH
 
 
-      - name: Download Vulkan SDK Installer
-        run: |
-          $VulkanVersion = "1.3.275.0"
-          $VulkanUrl = "https://sdk.lunarg.com/sdk/download/$VulkanVersion/windows/VulkanSDK-$VulkanVersion-Installer.exe"
-          Invoke-WebRequest -Uri $VulkanUrl -OutFile VulkanSDK-Installer.exe
-          if (Test-Path '.\VulkanSDK-Installer.exe') { Write-Host "Downloaded installer found." } else { Write-Error "Installer not found!" }
+      # - name: Download Vulkan SDK Installer
+      #   run: |
+      #     $VulkanVersion = "1.3.275.0"
+      #     $VulkanUrl = "https://sdk.lunarg.com/sdk/download/$VulkanVersion/windows/VulkanSDK-$VulkanVersion-Installer.exe"
+      #     Invoke-WebRequest -Uri $VulkanUrl -OutFile VulkanSDK-Installer.exe
+      #     if (Test-Path '.\VulkanSDK-Installer.exe') { Write-Host "Downloaded installer found." } else { Write-Error "Installer not found!" }
 
-      - name: Install Vulkan SDK Silently (try several flags)
-        shell: pwsh
-        run: |
-         $installed = $false
-         $argsList = @("/S /ALLUSERS", "/SILENT /ALLUSERS", "/VERYSILENT /ALLUSERS")
-         foreach ($args in $argsList) {
-         Write-Host "Trying silent install with argument: $args"
-         try {
-         Start-Process -FilePath ".\VulkanSDK-Installer.exe" -ArgumentList $args -Wait -NoNewWindow
-         if (Test-Path "C:\VulkanSDK") {
-          $installed = $true
-          Write-Host "Vulkan SDK installed successfully."
-          break
-         }
-         } catch {
-         Write-Host "Silent install with $args failed. Trying next."
-         }
-         }
-         if (-not $installed) {
-         Write-Host "Vulkan SDK install appears to have failed or was not necessary. Continuing build."
-         }
+      # - name: Install Vulkan SDK Silently (try several flags)
+      #   shell: pwsh
+      #   run: |
+      #    $installed = $false
+      #    $argsList = @("/S /ALLUSERS", "/SILENT /ALLUSERS", "/VERYSILENT /ALLUSERS")
+      #    foreach ($args in $argsList) {
+      #    Write-Host "Trying silent install with argument: $args"
+      #    try {
+      #    Start-Process -FilePath ".\VulkanSDK-Installer.exe" -ArgumentList $args -Wait -NoNewWindow
+      #    if (Test-Path "C:\VulkanSDK") {
+      #     $installed = $true
+      #     Write-Host "Vulkan SDK installed successfully."
+      #     break
+      #    }
+      #    } catch {
+      #    Write-Host "Silent install with $args failed. Trying next."
+      #    }
+      #    }
+      #    if (-not $installed) {
+      #    Write-Host "Vulkan SDK install appears to have failed or was not necessary. Continuing build."
+      #    }
 
 
       - name: Setup MSVC Environment
