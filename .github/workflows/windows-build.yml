@@ -22,11 +22,15 @@ jobs:
 
       - name: Add Rust components
         run: rustup component add clippy rustfmt
-
       - name: Install dependencies via Chocolatey
         run: |
-          choco install -y visualstudio2022buildtools visualstudio2022-workload-vctools cmake vulkan-sdk windows-sdk-10-version-2104
+            choco install -y visualstudio2022buildtools visualstudio2022-workload-vctools cmake
 
+      - name: Download and install Vulkan SDK
+        run: |
+            Invoke-WebRequest -Uri https://sdk.lunarg.com/sdk/download/latest/windows/vulkan_sdk.exe -OutFile vulkan_sdk.exe
+            ./vulkan_sdk.exe /S
+           
       - name: Setup MSVC Environment
         uses: ilammy/msvc-dev-cmd@v1
 
