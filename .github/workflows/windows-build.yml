@@ -67,12 +67,28 @@ jobs:
           Invoke-WebRequest -Uri $VulkanUrl -OutFile VulkanSDK-Installer.exe
           if (Test-Path '.\VulkanSDK-Installer.exe') { Write-Host "Downloaded installer found." } else { Write-Error "Installer not found!" }
 
-      - name: Install Vulkan SDK Silently (robust flags)
+      - name: Install Vulkan SDK Silently (try several flags)
+        shell: pwsh
         run: |
-          ./VulkanSDK-Installer.exe /S /ALLUSERS `
-            -or ./VulkanSDK-Installer.exe /SILENT /ALLUSERS `
-            -or ./VulkanSDK-Installer.exe /VERYSILENT /ALLUSERS `
-            -or echo "Vulkan SDK install failed or not needed, continuing anyway."
+         $installed = $false
+         $argsList = @("/S /ALLUSERS", "/SILENT /ALLUSERS", "/VERYSILENT /ALLUSERS")
+         foreach ($args in $argsList) {
+         Write-Host "Trying silent install with argument: $args"
+         try {
+         Start-Process -FilePath ".\VulkanSDK-Installer.exe" -ArgumentList $args -Wait -NoNewWindow
+         if (Test-Path "C:\VulkanSDK") {
+          $installed = $true
+          Write-Host "Vulkan SDK installed successfully."
+          break
+         }
+         } catch {
+         Write-Host "Silent install with $args failed. Trying next."
+         }
+         }
+         if (-not $installed) {
+         Write-Host "Vulkan SDK install appears to have failed or was not necessary. Continuing build."
+         }
+
 
       - name: Setup MSVC Environment
         uses: ilammy/msvc-dev-cmd@v1
